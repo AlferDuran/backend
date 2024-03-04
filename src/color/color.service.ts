@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Color } from './color.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class ColorService extends TypeOrmCrudService<Color> {
-  constructor(@InjectRepository(Color) repo) {
-    super(repo);
-  }
+export class ColorService {
+  constructor(
+    @InjectRepository(Color) private readonly repo: Repository<Color>,
+  ) {}
 
   create(createDto: Omit<Color, 'active' | 'id'>): Promise<Color> {
     return this.repo.save(createDto);
